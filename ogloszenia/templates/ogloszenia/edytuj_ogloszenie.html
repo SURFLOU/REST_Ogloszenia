@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Edytuj ogłoszenie</h2>
+    <form method="post" action="{% url 'edytuj_ogloszenie' ogloszenie.id %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="tytul">Tytuł:</label>
+            <input type="text" class="form-control" id="tytul" name="tytul" value="{{ ogloszenie.tytul }}">
+        </div>
+        <div class="form-group">
+            <label for="tresc">Treść:</label>
+            <textarea class="form-control" id="tresc" name="tresc">{{ ogloszenie.tresc }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Zapisz</button>
+    </form>
+</div>
+{% endblock %}

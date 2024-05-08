@@ -1,0 +1,12 @@
+<!-- wyswietl_ogloszenia.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Wszystkie ogłoszenia</h2>
+<ul>
+    {% for ogloszenie in ogloszenia %}
+    <li>{{ ogloszenie.tytul }}</li>
+    <p>{{ ogloszenie.tresc }}</p>
+    {% endfor %}
+</ul>
+{% endblock %}

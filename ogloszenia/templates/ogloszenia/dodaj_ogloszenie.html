@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Dodaj nowe ogłoszenie</h2>
+    <form method="post" action="{% url 'dodaj_ogloszenie' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="tytul">Tytuł:</label>
+            <input type="text" class="form-control" id="tytul" name="tytul">
+        </div>
+        <div class="form-group">
+            <label for="tresc">Treść:</label>
+            <textarea class="form-control" id="tresc" name="tresc"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Dodaj</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Ogłoszenie zostało dodane pomyślnie!</h4>
+        <p>Dziękujemy za dodanie nowego ogłoszenia.</p>
+        <a href="{% url 'strona_glowna' %}" class="btn btn-primary">Powrót do strony głównej</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Wszystkie ogłoszenia</h2>
+    <div class="row">
+        {% for ogloszenie in ogloszenia %}
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Tytuł: {{ ogloszenie.tytul }}</h5>
+                    <p class="card-text">Treść: {{ ogloszenie.tresc }}</p>
+                    <p class="card-text"><small class="text-muted">Data utworzenia: {{ ogloszenie.data_publikacji }}</small></p>
+                    <a href="{% url 'edytuj_ogloszenie' ogloszenie.id %}" class="btn btn-primary">Edytuj</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
