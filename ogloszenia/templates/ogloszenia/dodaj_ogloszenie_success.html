@@ -8,4 +8,15 @@
         <a href="{% url 'strona_glowna' %}" class="btn btn-primary">Powrót do strony głównej</a>
     </div>
 </div>
+
+<!-- Include CSRF token -->
+<form id="csrf-form" style="display: none;">
+    {% csrf_token %}
+</form>
+
+<script>
+// Include CSRF token in AJAX requests
+var csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+document.getElementById('csrf-form').innerHTML = `<input type="hidden" name="csrfmiddlewaretoken" value="${csrftoken}">`;
+</script>
 {% endblock %}
