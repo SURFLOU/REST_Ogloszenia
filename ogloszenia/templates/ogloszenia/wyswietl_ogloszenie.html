@@ -1,12 +1,19 @@
-<!-- wyswietl_ogloszenia.html -->
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Wszystkie ogłoszenia</h2>
-<ul>
-    {% for ogloszenie in ogloszenia %}
-    <li>{{ ogloszenie.tytul }}</li>
-    <p>{{ ogloszenie.tresc }}</p>
-    {% endfor %}
-</ul>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card mt-5">
+                <div class="card-body">
+                    <h2 class="card-title">Ogłoszenie</h2>
+                    <h3 class="card-subtitle mb-2 text-muted">{{ ogloszenie.tytul }}</h3>
+                    <p class="card-text">{{ ogloszenie.tresc }}</p>
+                    <p class="card-text"><small class="text-muted">Data utworzenia: {{ ogloszenie.data_publikacji }}</small></p>
+                    <a href="{% url 'strona_glowna' %}" class="btn btn-primary">Powrót do strony głównej</a> <!-- Przycisk powrotu do strony głównej -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -2,6 +2,11 @@
 
 {% block content %}
 <div class="container">
+    <div class="row">
+        <div class="col-md-12 mb-3">
+            <a href="{% url 'dodaj_ogloszenie' %}" class="btn btn-primary">Dodaj ogłoszenie</a> <!-- Przycisk dodawania ogłoszenia -->
+        </div>
+    </div>
     <h2>Wszystkie ogłoszenia</h2>
     <div class="row">
         {% for ogloszenie in ogloszenia %}
@@ -9,10 +14,10 @@
             <div class="card mb-3">
                 <div class="card-body">
                     <h5 class="card-title">Tytuł: {{ ogloszenie.tytul }}</h5>
-                    <p class="card-text">Treść: {{ ogloszenie.tresc }}</p>
                     <p class="card-text"><small class="text-muted">Data utworzenia: {{ ogloszenie.data_publikacji }}</small></p>
                     <a href="{% url 'edytuj_ogloszenie' ogloszenie.id %}" class="btn btn-primary mr-2">Edytuj</a>
-                    <button onclick="usunOgloszenie({{ ogloszenie.id }})" class="btn btn-danger">Usuń</button>
+                    <button onclick="usunOgloszenie({{ ogloszenie.id }})" class="btn btn-danger mr-2">Usuń</button>
+                    <a href="{% url 'wyswietl_szczegoly_ogloszenia' ogloszenie.id %}" class="btn btn-success">Wyświetl</a>
                 </div>
             </div>
         </div>
@@ -55,6 +60,5 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-
 </script>
 {% endblock %}

@@ -41,3 +41,7 @@ def usun_ogloszenie(request, ogloszenie_id):
         return JsonResponse({'error': 'Ogłoszenie o podanym ID nie istnieje.'}, status=404)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
+    
+def wyswietl_ogloszenie(request, ogloszenie_id):
+    ogloszenie = get_object_or_404(Ogloszenie, pk=ogloszenie_id)
+    return render(request, 'ogloszenia/wyswietl_ogloszenie.html', {'ogloszenie': ogloszenie})
