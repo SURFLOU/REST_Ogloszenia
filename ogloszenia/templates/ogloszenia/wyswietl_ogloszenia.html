@@ -5,7 +5,7 @@
     <h2>Wszystkie ogłoszenia</h2>
     <div class="row">
         <div class="col-md-12 mb-3">
-            <a href="{% url 'dodaj_ogloszenie' %}" class="btn btn-primary">Dodaj ogłoszenie</a> <!-- Przycisk dodawania ogłoszenia -->
+            <a href="{% url 'dodaj_ogloszenie' %}" class="btn btn-primary">Dodaj ogłoszenie</a> 
             <a href="{% url 'sortuj_ogloszenia' 'tytul' %}" class="btn btn-primary ml-2">Sortuj według tytułu</a>
             <a href="{% url 'sortuj_ogloszenia' 'data' %}" class="btn btn-primary ml-2">Sortuj według daty dodania</a>
 
@@ -13,11 +13,10 @@
     </div>
     <div class="row">
         {% for ogloszenie in ogloszenia %}
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="card mb-3">
                 <div class="card-body">
-                    <h5 class="card-title">Tytuł: {{ ogloszenie.tytul }}</h5>
-                    <p class="card-text">Treść: {{ ogloszenie.tresc }}</p>
+                    <h5 class="card-title">{{ ogloszenie.tytul }}</h5>
                     <p class="card-text"><small class="text-muted">Data utworzenia: {{ ogloszenie.data_publikacji }}</small></p>
                     <a href="{% url 'edytuj_ogloszenie' ogloszenie.id %}" class="btn btn-primary mr-2">Edytuj</a>
                     <button onclick="usunOgloszenie({{ ogloszenie.id }})" class="btn btn-danger mr-2">Usuń</button>

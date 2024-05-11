@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from .models import Ogloszenie
+from django.db.models.functions import Lower
 
 def dodaj_ogloszenie(request):
     if request.method == 'POST':
@@ -49,7 +50,7 @@ def wyswietl_ogloszenie(request, ogloszenie_id):
 
 def sortuj_ogloszenia(request, kryterium):
     if kryterium == 'tytul':
-        ogloszenia = Ogloszenie.objects.order_by('tytul')
+        ogloszenia = Ogloszenie.objects.annotate(lower_tytul=Lower('tytul')).order_by('lower_tytul')
     elif kryterium == 'data':
         ogloszenia = Ogloszenie.objects.order_by('-data_publikacji')
     else:
