@@ -85,10 +85,18 @@ WSGI_APPLICATION = "ogloszenia_project.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+DATABASE_PATH = os.environ.get('SQLITE_PATH', default='local')
+print(DATABASE_PATH)
+if DATABASE_PATH == 'local':
+    DATABASE_PATH = BASE_DIR / "db.sqlite3"
+    print(DATABASE_PATH)
+elif DATABASE_PATH == 'flyio':
+    DATABASE_PATH = os.path.join('/data', 'db.sqlite3')
+    print(DATABASE_PATH)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / "db.sqlite3",
+        'NAME': DATABASE_PATH,
     }
 }
 
