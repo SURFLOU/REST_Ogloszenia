@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card mt-5">
+                <div class="card-body">
+                    <h2 class="card-title">Ogłoszenie zostało usunięte</h2>
+                    <p class="card-text">Ogłoszenie zostało pomyślnie usunięte.</p>
+                    <a href="{% url 'wyswietl_ogloszenia' %}" class="btn btn-primary">Powrót do listy ogłoszeń</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
