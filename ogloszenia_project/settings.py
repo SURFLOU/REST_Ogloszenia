@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get('API_KEY')
 DEBUG = True    
 
 APP_NAME = os.environ.get("FLY_APP_NAME")
-ALLOWED_HOSTS = [f"{APP_NAME}.fly.dev"] 
+ALLOWED_HOSTS = [f"{APP_NAME}.fly.dev", "127.0.0.1"] 
 
 
 CSRF_TRUSTED_ORIGINS= [
@@ -88,7 +88,7 @@ WSGI_APPLICATION = "ogloszenia_project.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join('/data', 'db.sqlite3'),
+        'NAME': BASE_DIR / "db.sqlite3",
     }
 }
 
