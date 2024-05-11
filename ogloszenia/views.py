@@ -28,3 +28,16 @@ def edytuj_ogloszenie(request, ogloszenie_id):
 
 def strona_glowna(request):
     return redirect('wyswietl_ogloszenia')
+
+def usunieto_ogloszenie(request):
+    return render(request, 'ogloszenia/usunieto_ogloszenie.html')   
+
+def usun_ogloszenie(request, ogloszenie_id):
+    try:
+        ogloszenie = Ogloszenie.objects.get(pk=ogloszenie_id)
+        ogloszenie.delete()
+        return redirect('usunieto_ogloszenie')
+    except Ogloszenie.DoesNotExist:
+        return JsonResponse({'error': 'Ogłoszenie o podanym ID nie istnieje.'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)

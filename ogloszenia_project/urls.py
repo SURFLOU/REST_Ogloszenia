@@ -8,4 +8,6 @@ urlpatterns = [
     path('dodaj/', views.dodaj_ogloszenie, name='dodaj_ogloszenie'),
     path('edytuj/<int:ogloszenie_id>/', views.edytuj_ogloszenie, name='edytuj_ogloszenie'),
     path('wyswietl/', views.wyswietl_ogloszenia, name='wyswietl_ogloszenia'),
+    path('ogloszenia/<int:ogloszenie_id>/', views.usun_ogloszenie, name='usun_ogloszenie'),
+    path('ogloszenia/usunieto/', views.usunieto_ogloszenie, name='usunieto_ogloszenie'),
 ]

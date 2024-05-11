@@ -11,11 +11,50 @@
                     <h5 class="card-title">Tytuł: {{ ogloszenie.tytul }}</h5>
                     <p class="card-text">Treść: {{ ogloszenie.tresc }}</p>
                     <p class="card-text"><small class="text-muted">Data utworzenia: {{ ogloszenie.data_publikacji }}</small></p>
-                    <a href="{% url 'edytuj_ogloszenie' ogloszenie.id %}" class="btn btn-primary">Edytuj</a>
+                    <a href="{% url 'edytuj_ogloszenie' ogloszenie.id %}" class="btn btn-primary mr-2">Edytuj</a>
+                    <button onclick="usunOgloszenie({{ ogloszenie.id }})" class="btn btn-danger">Usuń</button>
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
 </div>
+
+<script>
+function usunOgloszenie(ogloszenieId) {
+    if (confirm("Czy na pewno chcesz usunąć to ogłoszenie?")) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("DELETE", "/ogloszenia/" + ogloszenieId + "/", true);
+        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken')); // Include CSRF token in the request headers
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    alert("Ogłoszenie zostało usunięte!");
+                    window.location.reload(); // Refresh the page after deleting the announcement
+                } else {
+                    alert("Wystąpił błąd podczas usuwania ogłoszenia.");
+                }
+            }
+        };
+        xhr.send();
+    }
+}
+
+// Function to get CSRF token from cookies
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+</script>
 {% endblock %}
