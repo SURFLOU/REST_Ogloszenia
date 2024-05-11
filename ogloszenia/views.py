@@ -45,3 +45,14 @@ def usun_ogloszenie(request, ogloszenie_id):
 def wyswietl_ogloszenie(request, ogloszenie_id):
     ogloszenie = get_object_or_404(Ogloszenie, pk=ogloszenie_id)
     return render(request, 'ogloszenia/wyswietl_ogloszenie.html', {'ogloszenie': ogloszenie})
+
+
+def sortuj_ogloszenia(request, kryterium):
+    if kryterium == 'tytul':
+        ogloszenia = Ogloszenie.objects.order_by('tytul')
+    elif kryterium == 'data':
+        ogloszenia = Ogloszenie.objects.order_by('-data_publikacji')
+    else:
+        return JsonResponse({'error': 'Nieprawidłowe kryterium sortowania.'}, status=400)
+    
+    return render(request, 'ogloszenia/wyswietl_ogloszenia.html', {'ogloszenia': ogloszenia})
