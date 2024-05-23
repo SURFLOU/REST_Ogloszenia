@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="row">
-        {% for ogloszenie in ogloszenia %}
+        {% for ogloszenie in page_obj %}
         <div class="col-md-12">
             <div class="card mb-3">
                 <div class="card-body">
@@ -28,6 +28,21 @@
             </div>
         </div>
         {% endfor %}
+    </div>
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?strona={{ page_obj.previous_page_number }}">poprzednia</a>
+            {% endif %}
+
+            <span class="current">
+                Strona {{ page_obj.number }} z {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?strona={{ page_obj.next_page_number }}">następna</a>
+            {% endif %}
+        </span>
     </div>
 </div>
 

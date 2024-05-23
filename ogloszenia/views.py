@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from .models import Ogloszenie
 from django.db.models.functions import Lower
+from django.core.paginator import Paginator
 
 def dodaj_ogloszenie(request):
     if request.method == 'POST':
@@ -12,21 +13,33 @@ def dodaj_ogloszenie(request):
             return render(request, 'ogloszenia/dodaj_ogloszenie_success.html')
     return render(request, 'ogloszenia/dodaj_ogloszenie.html')
 
+
+
+
 def wyswietl_ogloszenia(request):
     tytul = request.GET.get('tytul', '')
+    ogloszenia_lista = Ogloszenie.objects.all()
+    paginator = Paginator(ogloszenia_lista,
+                          request.GET.get('na_strone', 10))
+    page_number = request.GET.get('strona')
+    page_obj = paginator.get_page(page_number)
     if tytul:
         ogloszenia = Ogloszenie.objects.filter(tytul__icontains=tytul)
     else:
         ogloszenia = Ogloszenie.objects.all()
     return render(request, 'ogloszenia/wyswietl_ogloszenia.html', {'ogloszenia': ogloszenia})
+    return render(request, 'ogloszenia/wyswietl_ogloszenia.html', {'page_obj': page_obj})
+
 
 def edytuj_ogloszenie(request, ogloszenie_id):
     ogloszenie = get_object_or_404(Ogloszenie, pk=ogloszenie_id)
     if request.method == 'POST':
         tytul = request.POST.get('tytul')
         tresc = request.POST.get('tresc')
-        ogloszenie.tytul = tytul
-        ogloszenie.tresc = tresc
+        if tytul:
+            ogloszenie.tytul = tytul
+        if tresc:
+            ogloszenie.tresc = tresc
         ogloszenie.save()
         return redirect('wyswietl_ogloszenia')
     return render(request, 'ogloszenia/edytuj_ogloszenie.html', {'ogloszenie': ogloszenie})
@@ -66,3 +79,8 @@ def wyszukaj_ogloszenia(request):
     tytul = request.GET.get('tytul', '')
     ogloszenia = Ogloszenie.objects.filter(tytul__icontains=tytul)
     return render(request, 'ogloszenia/wyszukaj_ogloszenia.html', {'ogloszenia': ogloszenia})
+
+
+def zlicz_ogloszenia(request):
+    liczba_ogloszen = Ogloszenie.objects.count()
+    return JsonResponse({'liczba_ogloszen': liczba_ogloszen})
