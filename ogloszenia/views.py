@@ -4,6 +4,7 @@ from .models import Ogloszenie
 from django.db.models.functions import Lower
 from django.core.paginator import Paginator
 
+
 def dodaj_ogloszenie(request):
     if request.method == 'POST':
         tytul = request.POST.get('tytul')
@@ -12,6 +13,11 @@ def dodaj_ogloszenie(request):
             Ogloszenie.objects.create(tytul=tytul, tresc=tresc)
             return render(request, 'ogloszenia/dodaj_ogloszenie_success.html')
     return render(request, 'ogloszenia/dodaj_ogloszenie.html')
+
+
+from django.core.paginator import Paginator
+from .models import Ogloszenie
+
 
 def wyswietl_ogloszenia(request):
     tytul = request.GET.get('tytul', '')
@@ -23,7 +29,6 @@ def wyswietl_ogloszenia(request):
     page_number = request.GET.get('strona')
     page_obj = paginator.get_page(page_number)
     return render(request, 'ogloszenia/wyswietl_ogloszenia.html', {'page_obj': page_obj})
-
 
 def edytuj_ogloszenie(request, ogloszenie_id):
     ogloszenie = get_object_or_404(Ogloszenie, pk=ogloszenie_id)
@@ -38,11 +43,14 @@ def edytuj_ogloszenie(request, ogloszenie_id):
         return redirect('wyswietl_ogloszenia')
     return render(request, 'ogloszenia/edytuj_ogloszenie.html', {'ogloszenie': ogloszenie})
 
+
 def strona_glowna(request):
     return redirect('wyswietl_ogloszenia')
 
+
 def usunieto_ogloszenie(request):
-    return render(request, 'ogloszenia/usunieto_ogloszenie.html')   
+    return render(request, 'ogloszenia/usunieto_ogloszenie.html')
+
 
 def usun_ogloszenie(request, ogloszenie_id):
     try:
@@ -53,7 +61,8 @@ def usun_ogloszenie(request, ogloszenie_id):
         return JsonResponse({'error': 'Ogłoszenie o podanym ID nie istnieje.'}, status=404)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
-    
+
+
 def wyswietl_ogloszenie(request, ogloszenie_id):
     ogloszenie = get_object_or_404(Ogloszenie, pk=ogloszenie_id)
     return render(request, 'ogloszenia/wyswietl_ogloszenie.html', {'ogloszenie': ogloszenie})
@@ -73,7 +82,6 @@ def wyszukaj_ogloszenia(request):
     tytul = request.GET.get('tytul', '')
     ogloszenia = Ogloszenie.objects.filter(tytul__icontains=tytul)
     return render(request, 'ogloszenia/wyszukaj_ogloszenia.html', {'ogloszenia': ogloszenia})
-
 
 def zlicz_ogloszenia(request):
     liczba_ogloszen = Ogloszenie.objects.count()

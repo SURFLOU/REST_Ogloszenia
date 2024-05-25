@@ -15,4 +15,5 @@ urlpatterns = [
     path('ogloszenia/zlicz/', views.zlicz_ogloszenia, name='zlicz_ogloszenia'),
     path('ogloszenia/sortuj/<str:kryterium>/', views.sortuj_ogloszenia, name='sortuj_ogloszenia'),
     path('ogloszenia/wyszukaj/', views.wyszukaj_ogloszenia, name='wyszukaj_ogloszenia'),
+    path('ogloszenia/zlicz/', views.zlicz_ogloszenia, name='zlicz_ogloszenia'),
 ]
