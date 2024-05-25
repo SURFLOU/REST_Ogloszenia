@@ -13,7 +13,11 @@ def dodaj_ogloszenie(request):
     return render(request, 'ogloszenia/dodaj_ogloszenie.html')
 
 def wyswietl_ogloszenia(request):
-    ogloszenia = Ogloszenie.objects.all()
+    tytul = request.GET.get('tytul', '')
+    if tytul:
+        ogloszenia = Ogloszenie.objects.filter(tytul__icontains=tytul)
+    else:
+        ogloszenia = Ogloszenie.objects.all()
     return render(request, 'ogloszenia/wyswietl_ogloszenia.html', {'ogloszenia': ogloszenia})
 
 def edytuj_ogloszenie(request, ogloszenie_id):
@@ -57,3 +61,8 @@ def sortuj_ogloszenia(request, kryterium):
         return JsonResponse({'error': 'Nieprawidłowe kryterium sortowania.'}, status=400)
     
     return render(request, 'ogloszenia/wyswietl_ogloszenia.html', {'ogloszenia': ogloszenia})
+
+def wyszukaj_ogloszenia(request):
+    tytul = request.GET.get('tytul', '')
+    ogloszenia = Ogloszenie.objects.filter(tytul__icontains=tytul)
+    return render(request, 'ogloszenia/wyszukaj_ogloszenia.html', {'ogloszenia': ogloszenia})
