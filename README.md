@@ -60,3 +60,5 @@ python manage.py runserver
 ```
 
 The development server will start running at http://127.0.0.1:8000/.
+
+Live website is available at: https://ogloszenia-project.fly.dev
