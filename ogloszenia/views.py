@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from .models import Ogloszenie
 from django.db.models.functions import Lower
 from django.core.paginator import Paginator
+from django.urls import reverse
 
 
 def dodaj_ogloszenie(request):
@@ -21,14 +22,23 @@ from .models import Ogloszenie
 
 def wyswietl_ogloszenia(request):
     tytul = request.GET.get('tytul', '')
+    sort_param = request.GET.get('sort')
+
     if tytul:
         ogloszenia_lista = Ogloszenie.objects.filter(tytul__icontains=tytul)
     else:
         ogloszenia_lista = Ogloszenie.objects.all()
+
+    if sort_param == 'tytul':
+        ogloszenia_lista = ogloszenia_lista.order_by(Lower('tytul'))
+    elif sort_param == 'data':
+        ogloszenia_lista = ogloszenia_lista.order_by('-data_publikacji')
+
     paginator = Paginator(ogloszenia_lista, request.GET.get('na_strone', 10))
     page_number = request.GET.get('strona')
     page_obj = paginator.get_page(page_number)
     return render(request, 'ogloszenia/wyswietl_ogloszenia.html', {'page_obj': page_obj})
+
 
 def edytuj_ogloszenie(request, ogloszenie_id):
     ogloszenie = get_object_or_404(Ogloszenie, pk=ogloszenie_id)
@@ -68,6 +78,7 @@ def wyswietl_ogloszenie(request, ogloszenie_id):
     return render(request, 'ogloszenia/wyswietl_ogloszenie.html', {'ogloszenie': ogloszenie})
 
 
+
 def sortuj_ogloszenia(request, kryterium):
     if kryterium == 'tytul':
         ogloszenia = Ogloszenie.objects.annotate(lower_tytul=Lower('tytul')).order_by('lower_tytul')
@@ -75,8 +86,12 @@ def sortuj_ogloszenia(request, kryterium):
         ogloszenia = Ogloszenie.objects.order_by('-data_publikacji')
     else:
         return JsonResponse({'error': 'Nieprawidłowe kryterium sortowania.'}, status=400)
-    
-    return render(request, 'ogloszenia/wyswietl_ogloszenia.html', {'ogloszenia': ogloszenia})
+
+    # Constructing the URL with sorted data
+    sorted_url = reverse('wyswietl_ogloszenia')
+    sorted_url += f'?sort={kryterium}'
+
+    return redirect(sorted_url)
 
 def wyszukaj_ogloszenia(request):
     tytul = request.GET.get('tytul', '')
@@ -85,4 +100,4 @@ def wyszukaj_ogloszenia(request):
 
 def zlicz_ogloszenia(request):
     liczba_ogloszen = Ogloszenie.objects.count()
-    return JsonResponse({'liczba_ogloszen': liczba_ogloszen})
+    return render(request, 'ogloszenia/total_ogloszenia.html', {'liczba_ogloszen': liczba_ogloszen})
