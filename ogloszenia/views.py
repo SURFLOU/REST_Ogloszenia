@@ -19,6 +19,12 @@ from .models import Ogloszenie
 
 
 def wyswietl_ogloszenia(request):
+    tytul = request.GET.get('tytul', '')
+    if tytul:
+        ogloszenia = Ogloszenie.objects.filter(tytul__icontains=tytul)
+    else:
+        ogloszenia = Ogloszenie.objects.all()
+    return render(request, 'ogloszenia/wyswietl_ogloszenia.html', {'ogloszenia': ogloszenia})
     ogloszenia_lista = Ogloszenie.objects.all()
     paginator = Paginator(ogloszenia_lista,
                           request.GET.get('na_strone', 10))  # Domyślnie pokazuje 10 ogłoszeń na stronie
@@ -74,6 +80,13 @@ def sortuj_ogloszenia(request, kryterium):
         ogloszenia = Ogloszenie.objects.order_by('-data_publikacji')
     else:
         return JsonResponse({'error': 'Nieprawidłowe kryterium sortowania.'}, status=400)
+    
+    return render(request, 'ogloszenia/wyswietl_ogloszenia.html', {'ogloszenia': ogloszenia})
+
+def wyszukaj_ogloszenia(request):
+    tytul = request.GET.get('tytul', '')
+    ogloszenia = Ogloszenie.objects.filter(tytul__icontains=tytul)
+    return render(request, 'ogloszenia/wyszukaj_ogloszenia.html', {'ogloszenia': ogloszenia})
 
     return render(request, 'ogloszenia/wyswietl_ogloszenia.html', {'ogloszenia': ogloszenia})
 
